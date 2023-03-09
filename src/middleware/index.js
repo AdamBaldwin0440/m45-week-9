@@ -23,6 +23,7 @@ const hashPass = async (req, res, next) => {
 
 const comparePass = async (req, res, next) => {
   try {
+    console.log(req.body)
     // get user
     // const user = await User.findOne({ where: { username: req.body.username } });
     req.user = await User.findOne({ where: { username: req.body.username } });
