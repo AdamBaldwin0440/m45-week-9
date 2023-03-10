@@ -7,11 +7,7 @@ const { registerUser, login, getAllUsers } = require("./controllers");
 userRouter.post("/users/register", hashPass, registerUser);
 userRouter.post("/users/login", comparePass, login);
 
-// getall users
-userRouter.get("/users/getallusers", tokenCheck, getAllUsers); //protected
-
-// updateuser
-
-// userRouter.put(("/users/updateuser", tokenCheck, updateUser));
+userRouter.get("/users/getallusers", tokenCheck, getAllUsers); 
+userRouter.get("/users/authcheck", tokenCheck, login);
 
 module.exports = userRouter;

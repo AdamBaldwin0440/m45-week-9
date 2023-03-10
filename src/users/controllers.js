@@ -24,9 +24,18 @@ const registerUser = async (req, res) => {
 
 const login = async (req, res) => {
   try {
+    if (req.authCheck){
+      res.status(201).json({
+        message: "success",
+        user:{
+          username: req.authCheck.username,
+          email: req.authCheck.email,
+        },
+      });
+      return;
+    }
     const token = await jwt.sign({ id: req.user.id }, process.env.SECRET);
-    console.log("token: ", token);
-
+  
     res.status(201).json({
       message: "success",
       user: {
@@ -44,7 +53,7 @@ const getAllUsers = async (req, res) => {
   try {
     if (!req.authCheck) {
       const error = new Error("Not authorised");
-      res.status(401).json({ errorMessage: error.message, error: error });
+      res.status(401).json({ errorMessage: error.message, error: error }); //401? error in error?
     }
 
     const users = await User.findAll();
@@ -52,7 +61,7 @@ const getAllUsers = async (req, res) => {
     for (let user of users) {
       user.password = "";
     }
-
+    console.log(users);
     res.status(200).json({ message: "success", users: users });
   } catch (error) {
     res.status(501).json({ errorMessage: error.message, error: error });
